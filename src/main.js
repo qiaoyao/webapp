@@ -7,6 +7,8 @@ import axios from 'axios'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import {DOMLoaded, computedREM} from './assets/js/base'
 
+import './assets/styles/index.scss'
+
 fastclick.attach(document.body);
 
 Vue.use(VueLazyLoad, {
