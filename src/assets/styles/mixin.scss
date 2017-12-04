@@ -1,0 +1,50 @@
+@mixin borderY($position){
+  #{$position}: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  transform-origin: 0 0;
+  @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+    transform: scaleY(0.7);
+  }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-webkit-min-device-pixel-ratio: 2) {
+    transform: scaleY(0.5);
+  }
+  @media only screen and (-webkit-min-device-pixel-ratio: 3), only screen and (-webkit-min-device-pixel-ratio: 3) {
+    transform: scaleY(0.333);
+  }
+}
+@mixin borderX($position){
+  top: 0;
+  #{$position}: 0;
+  width: 1px;
+  height: 100%;
+  transform-origin: 0 0;
+  @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+    transform: scaleX(0.7);
+  }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-webkit-min-device-pixel-ratio: 2) {
+    transform: scaleX(0.5);
+  }
+  @media only screen and (-webkit-min-device-pixel-ratio: 3), only screen and (-webkit-min-device-pixel-ratio: 3) {
+    transform: scaleX(0.333);
+  }
+}
+@mixin border($around:after,$direction:top, $color:#eee) {
+  position: relative;
+  &:#{$around} {
+    content: '';
+    position: absolute;
+    display: block;
+    background: $color;
+    @if $direction == top {
+      @include borderY(top);
+    } @else if $direction == bottom{
+      @include borderY(bottom);
+    }@else if $direction == left{
+      @include borderX(left);
+    }@else if $direction == right{
+      @include borderX(right);
+    }
+  }
+}
