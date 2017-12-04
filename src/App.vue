@@ -6,26 +6,25 @@
 </template>
 
 <script>
-  export default {
-    name: "app",
-    created() {
-      this.init();
-    },
-    methods: {
-      init () {
-        console.log(this.$URL)
-      }
+export default {
+  name: "app",
+  data () {
+    return {
+      
     }
-  };
-
+  },
+  created() {},
+  methods: {
+    init() {}
+  }
+};
 </script>
 
 <style lang="scss">
-  #app {
-    color: #f20;
-    p {
-      line-height: 2
-    }
+#app {
+  color: #f20;
+  p {
+    line-height: 2;
   }
-
+}
 </style>
