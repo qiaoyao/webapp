@@ -26,8 +26,7 @@ window.addEventListener('resize', computedREM);
 Vue.prototype.$http = axios;
 
 Vue.config.productionTip = false;
-
-Vue.prototype.$URL = process.env.API_HOST;
+Vue.prototype.$URL = process.env.API_ROOT;
 
 /* eslint-disable no-new */
 new Vue({

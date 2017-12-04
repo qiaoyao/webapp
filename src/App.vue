@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-
+    <router-link to="/contact">123</router-link>
     <router-view></router-view>
   </div>
 </template>

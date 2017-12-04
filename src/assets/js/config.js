@@ -1,1 +1,2 @@
-$URL = "http://yundian.com";
+// $URL = "http://yundian.com";
+$URL = "";
