@@ -1,4 +1,4 @@
-# spa
+# webapp
 
 > A Vue.js project
 
