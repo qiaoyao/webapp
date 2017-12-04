@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import '../assets/js/config'
 const contact = {
   name: "contact",
   data() {
@@ -74,8 +73,6 @@ const contact = {
     };
   },
   mounted: function() {
-    
-console.log(this.$URL);
     this.changeTab(-1);
     this.haha();
   },
