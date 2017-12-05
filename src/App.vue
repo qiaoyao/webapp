@@ -2,7 +2,9 @@
   <div id="app">
     <app-header></app-header>
     <router-link to="/contact">123</router-link>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
     <app-footer></app-footer>
   </div>
 </template>
