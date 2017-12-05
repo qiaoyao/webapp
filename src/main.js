@@ -9,6 +9,7 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import {DOMLoaded, computedREM} from './assets/js/base'
 
 import './assets/styles/index.scss'
+import './assets/fonts/iconfont.css'
 import 'swiper/dist/css/swiper.css'
 
 fastclick.attach(document.body);
