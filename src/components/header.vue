@@ -39,7 +39,7 @@
         </router-link>
       </li>
       <li class="linkA">
-        <router-link to="/b" tag="span" class="leveA">
+        <router-link to="/contact" tag="span" class="leveA">
           <span class="text">联系我们</span>
         </router-link>
       </li>
