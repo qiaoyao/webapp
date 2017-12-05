@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <app-header></app-header>
-    <router-link to="/contact">123</router-link>
+    <!-- <router-link to="/contact">123</router-link> -->
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
