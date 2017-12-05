@@ -103,7 +103,7 @@ export default {
       letter-spacing: 0.04rem;
       line-height: 2rem;
       margin-right: 1rem;
-      margin-top: 1rem;
+      margin-top: 1rem; 
     }
   }
 }
