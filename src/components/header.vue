@@ -83,10 +83,6 @@ export default {
 <style scoped lang="scss">
 @import "../assets/styles/mixin.scss";
 
-* {
-  box-sizing: border-box;
-}
-
 .header {
   height: 4.4rem;
 }
