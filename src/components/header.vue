@@ -26,7 +26,7 @@
           <span class="text">允典产品</span>
           <i class="iconfont" :class="{'icon-arrow-down': !showStoreClass, 'icon-arrow-up': showStoreClass}"></i>
         </div>
-        <dl class="leveB" v-if="showStoreClass">
+        <dl class="leveB" v-if="showStoreClass" v-cloak>
           <router-link :to="'/goodsList/'+item.stc_id" tag="dd" class="linkB" v-for="item in storeClass" :key="item.stc_id">
             <span class="text">{{item.stc_name}}</span>
             <i class="iconfont icon-checked"></i>
@@ -52,8 +52,8 @@ export default {
   name: "header",
   data() {
     return {
-      showDropMenu: false,
       storeClass: [],
+      showDropMenu: false,
       showStoreClass: false
     };
   },
@@ -67,6 +67,14 @@ export default {
           this.storeClass = response.data.data;
         }
       });
+    }
+  },
+  watch: {
+    $route(to, from) {
+      if (to.path) {
+        this.showDropMenu = false;
+        this.showStoreClass = false;
+      }
     }
   }
 };
