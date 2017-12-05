@@ -14,6 +14,7 @@ export function computedREM() {
   const html = document.documentElement;
   const windowWidth = html.clientWidth;
   html.style.fontSize = parseInt(windowWidth / 750 * 20) + 'px';
+  return parseInt(windowWidth / 750 * 20);
 }
 
 /**
