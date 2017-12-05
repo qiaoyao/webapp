@@ -38,7 +38,6 @@
 <script>
 import {computedREM} from '../assets/js/base'
 const rem = computedREM();
-console.log(require("../assets/images/jindu.jpg"));
 const contact = {
   name: "contact",
   data() {
