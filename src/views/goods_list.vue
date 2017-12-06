@@ -1,27 +1,27 @@
 <template>
   <div id="goods_list">
-    <tab :tabs="tabs"></tab>
-    <search-tag :searchTag="searchTag"></search-tag>
+    <tab :tabs="tabs" :curIndex="newGoods" @changeTab="changeTabs"></tab>
+    <search-tag :searchTag="searchTag" v-if="false"></search-tag>
     <div class="list-wrapper">
       <ul class="list">
-        <li class="item active" v-for="(item,index) in 4" :key="index">
+        <li class="item" v-for="(item,index) in goodsList" :key="index">
           <div class="item-main">
-            <div class="icon">
+            <div class="icon" :class="{'active':item.isStorages}" @click="storageGoods(index)">
               <span class="iconfont icon-fav-full"></span>
             </div>
             <div class="img">
-              <img src="./../assets/images/goods_default.png" alt="">
+              <img class="lazy-goods" v-lazy="item.goods_image" alt="">
             </div>
             <div class="desc">
-              <p class="name">新古典玄关屏风仕女图新古典玄关屏风仕女图</p>
-              <p class="price">￥13800.00</p>
+              <p class="name">{{item.goods_name}}</p>
+              <p class="price">￥{{item.goods_price}}</p>
             </div>
           </div>
         </li>
       </ul>
     </div>
-    <div class="load">
-      <p>加载更多</p>
+    <div class="load" @click="loadMore">
+      <p>{{loadText}}</p>
     </div>
   </div>
 </template>
@@ -34,14 +34,123 @@ export default {
   components: { Tab, SearchTag },
   data() {
     return {
+      stcId: 0,
+      keywords: "",
+      newGoods: 0,
+      size: 10,
+      page: 1,
       tabs: ["全部", "新品"],
-      searchTag: ["桌子", "花梨木"]
+      searchTag: ["桌子", "花梨木"],
+      goodsList: [],
+      curTabIndex: 0,
+      hasMore: false,
+      loadText: "加载更多",
+      isStorages: false
     };
+  },
+  created() {
+    this.getGoodsList();
+  },
+  methods: {
+    changeTabs(index) {
+      if (this.curTabIndex == index) return;
+      this.curTabIndex = index;
+      this.newGoods = index;
+      this.page = 1;
+      this.goodsList = [];
+      this.getGoodsList();
+    },
+    getGoodsList() {
+      this.$http
+        .get(this.$URL + "wap/goods/goods-list", {
+          params: {
+            stc_id: this.stcId,
+            keywords: this.keywords,
+            new_goods: this.newGoods,
+            size: this.size,
+            page: this.page
+          }
+        })
+        .then(res => {
+          if (res.data.code == 0) {
+            this.goodsList = this.goodsList.concat(res.data.data);
+
+            var s = localStorage.getItem("goodsID");
+            if (s) {
+              var t = s.split(",");
+              for (var i = 0; i < this.goodsList.length; i++) {
+                for (var j = 0; j < t.length; j++) {
+                  if (this.goodsList[i].goods_id == t[j]) {
+                    this.$set(this.goodsList[i], "isStorages", true);
+                  }
+                }
+              }
+            }
+
+            this.hasMore =
+              res.data.pagination.current_page >=
+              res.data.pagination.total_pages
+                ? false
+                : true;
+            if (!this.hasMore) return;
+            this.page++;
+          }
+        });
+    },
+    loadMore() {
+      if (this.hasMore) {
+        this.getGoodsList();
+      } else {
+        this.loadText = "没有更多";
+      }
+    },
+    storageGoods(index) {
+      var s = localStorage.getItem("goodsID");
+      var t = [];
+      var id = this.goodsList[index].goods_id.toString();
+      if (s) {
+        t = s.split(",");
+        t = t.filter(function(item) {
+          return item != id;
+        });
+      }
+      t.unshift(id);
+
+      if (this.goodsList[index].isStorages) {
+        this.$set(this.goodsList[index], "isStorages", false);
+        t.splice(t.indexOf(id), 1);
+      } else {
+        this.$set(this.goodsList[index], "isStorages", true);
+      }
+
+      localStorage.setItem("goodsID", t);
+    }
+  },
+  watch: {
+    $route(to, from) {
+      this.stcId = this.$route.params.id;
+      this.newGoods = 0;
+      this.curTabIndex = 0;
+      this.page = 1;
+      this.goodsList = [];
+      this.getGoodsList();
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.lazy-goods[lazy="loaded"] {
+  animation: fade 0.5s;
+}
 #goods_list {
   background: #f0f0f0;
   .list-wrapper {
@@ -56,7 +165,7 @@ export default {
           margin: 0.5rem;
           padding: 1rem;
           background: #fff;
-          box-shadow: 0 1px 2px 0 rgba(192,192,192,0.30);
+          box-shadow: 0 1px 2px 0 rgba(192, 192, 192, 0.3);
           .icon {
             position: absolute;
             top: 1.8rem;
@@ -66,17 +175,25 @@ export default {
             height: 1.6rem;
             line-height: 1.6rem;
             text-align: center;
-            background: #C0C0C0;
+            background: #c0c0c0;
             border-radius: 0.2rem;
-            .iconfont{
+            .iconfont {
               font-size: 1rem;
               color: #444444;
+            }
+            &.active {
+              background: #c8a165;
+              .iconfont {
+                color: #ffffff;
+              }
             }
           }
           .img {
             position: relative;
             padding-top: 100%;
             width: 100%;
+            background: url("./../assets/images/goods_default.png") no-repeat;
+            background-size: 100% 100%;
             & > img {
               position: absolute;
               top: 0;
@@ -87,7 +204,7 @@ export default {
           }
           .desc {
             padding: 1rem 0;
-            .name{
+            .name {
               padding-bottom: 1rem;
               white-space: nowrap;
               text-overflow: ellipsis;
@@ -95,7 +212,7 @@ export default {
               font-size: 1.3rem;
               color: #666666;
             }
-            .price{
+            .price {
               white-space: nowrap;
               text-overflow: ellipsis;
               overflow: hidden;
@@ -106,22 +223,14 @@ export default {
             }
           }
         }
-        &.active{
-          .icon {
-            background:#C8A165;;
-            .iconfont{
-              color:#ffffff;
-            }
-          }
-        }
       }
     }
   }
-  .load{
+  .load {
     width: 100%;
     padding-bottom: 1rem;
     height: 4.6rem;
-    p{
+    p {
       line-height: 4.6rem;
       text-align: center;
       font-size: 1.4rem;

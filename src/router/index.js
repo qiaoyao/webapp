@@ -5,8 +5,8 @@ const Index = () => import('@/views/index');
 const Contact = () => import('@/views/contact');
 const GoodsList = () => import('@/views/goods_list');
 const GoodsDetails = () => import('@/views/goods_details');
-
-Vue.use(Router)
+const Search = () => import('@/views/search');
+const News = () => import('@/views/news');Vue.use(Router)
 
 export default new Router({
   routes: [
@@ -23,12 +23,19 @@ export default new Router({
       component: Contact
     },
     {
-      path: '/goodsList',
-      component: GoodsList
-    },
-    {
+      path: '/goodsList/:id',
+      component: GoodsList    },
+{
       path: '/goodsDetails',
       component: GoodsDetails
+    },
+	{
+      path: '/search',
+      component: Search
+    },
+    {
+      path: '/news',
+      component: News
     }
   ]
 })

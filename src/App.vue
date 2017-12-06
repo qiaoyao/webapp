@@ -1,15 +1,15 @@
 <template>
   <div id="app">
-    <app-header></app-header>
-    <!-- <router-link to="/contact">123</router-link> -->
+    <app-header v-show="showHeader"></app-header>
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
-    <app-footer></app-footer>
+    <app-footer v-show="showFooter"></app-footer>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import appHeader from "./components/header";
 import appFooter from "./components/footer";
 
@@ -22,7 +22,10 @@ export default {
   methods: {
     init() {}
   },
-  components: { appHeader, appFooter }
+  components: { appHeader, appFooter },
+  computed: {
+    ...mapGetters(["showHeader", "showFooter"])
+  }
 };
 </script>
 

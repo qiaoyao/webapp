@@ -1,29 +1,40 @@
 <template>
     <div>
         <div class="tab">
-            <div class="item" :class="{'active':curIndex==index}" v-for="(item,index) in tabs" :key="index" @click="curIndex=index">{{item}}</div>
+            <div class="item" :class="{'active':curIndex==index}" v-for="(item,index) in tabs" :key="index" @click="change(index)">{{item}}</div>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    props: {
-        tabs: {
-            type: Array,
-            default: []
-        }
-    },
-    data(){
-        return {
-            curIndex: 0
-        }
+  props: {
+    tabs: {
+      type: Array,
+      default: []
     }
+  },
+  data() {
+    return {
+      curIndex: 0
+    };
+  },
+  methods: {
+    change(index) {
+      this.curIndex = index;
+      this.$emit("changeTab", index);
+    }
+  },
+  watch: {
+    $route(to, from) {
+      this.curIndex = 0;
+    }
+  }
 };
 </script>
 
 <style scoped lang="scss">
-@import './../assets/styles/mixin.scss';
+@import "./../assets/styles/mixin.scss";
 .tab {
   display: flex;
   justify-content: center;
@@ -38,19 +49,19 @@ export default {
     height: 4.6rem;
     line-height: 4.6rem;
     text-align: center;
-    &.active{
-        position: relative;
-        color: #C8A165;
-        &:after{
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 25%;
-            z-index: 2;
-            width: 50%;
-            height: 1px;
-            background: #C8A165;
-        }
+    &.active {
+      position: relative;
+      color: #c8a165;
+      &:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 25%;
+        z-index: 2;
+        width: 50%;
+        height: 1px;
+        background: #c8a165;
+      }
     }
   }
 }

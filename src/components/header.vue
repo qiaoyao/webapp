@@ -10,12 +10,12 @@
         <img src="../assets/images/logo.png" alt="">
       </div>
       <div class="right-icon">
-        <i class="iconfont icon-search"></i>
+        <router-link class="iconfont icon-search" to="/search" tag="i"></router-link>
         <i class="iconfont icon-fav"></i>
       </div>
     </div>
     <!-- menu -->
-    <ul class="menu-list" v-if="showDropMenu">
+    <ul class="menu-list" v-if="showDropMenu" @touchmove.prevent>
       <li class="linkA">
         <router-link to="/index" tag="span" class="leveA">
           <span class="text">允典首页</span>
@@ -34,7 +34,7 @@
         </dl>
       </li>
       <li class="linkA">
-        <router-link to="/a" tag="span" class="leveA">
+        <router-link to="/news" tag="span" class="leveA">
           <span class="text">设计理念</span>
         </router-link>
       </li>
@@ -88,7 +88,7 @@ export default {
 }
 
 #header {
-  position: fixed;
+  position: fixed !important;
   top: 0;
   left: 0;
   right: 0;
