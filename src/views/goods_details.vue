@@ -94,11 +94,9 @@ export default {
       showEmpty: false
     };
   },
-  created() {
-    
-  },
-  activated: function () {
-    window.scrollTo(0,0);
+  created() {},
+  activated: function() {
+    window.scrollTo(0, 0);
     var id = this.$route.params.id;
     this.init(id);
   },
@@ -133,9 +131,19 @@ export default {
         });
     },
     checkFavourited(id) {
-      var favourArr = localStorage.getItem("goodsID").split(",");
-      if (favourArr.indexOf(id + "") != -1) {
-        this.favourited = true;
+      var storage = localStorage.getItem("goodsID");
+      console.log(storage);
+      console.log(id);
+      var favourArr;
+      if (storage) {
+        favourArr = localStorage.getItem("goodsID").split(",");
+        if (favourArr.indexOf(id + "") != -1) {
+          this.favourited = true;
+        } else {
+          this.favourited = false;
+        }
+      } else {
+        this.favourited = false;
       }
     },
     pickDuration(index) {
