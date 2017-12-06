@@ -66,10 +66,12 @@
       <div class="details-body" v-html="goods.goods_body"></div>
       <div class="content-gap"></div>
     </div>
+    <loading v-if="loading"></loading> 
   </div>
 </template>
 
 <script>
+import Loading from "../components/loading";
 export default {
   name: "goodsDetails",
   data() {
@@ -91,7 +93,8 @@ export default {
       currentDurationIndex: 0,
       currentRate: 0.06,
       isOpen: false,
-      showEmpty: false
+      showEmpty: false,
+      loading: true
     };
   },
   created() {},
@@ -123,9 +126,12 @@ export default {
             this.isRent = response.data.data.is_rent;
             this.checkFavourited(this.goods.goods_id);
             this.bannerOption.loopedSlides = this.goods.length;
+            this.showEmpty = false;
           }
+          this.loading = false;
         })
         .catch(err => {
+          this.loading = false;
           this.showEmpty = true;
           console.log(err);
         });
@@ -175,6 +181,16 @@ export default {
         this.favourited = true;
       }
       localStorage.setItem("goodsID", favourArr);
+    }
+  },
+  components: { Loading },
+  watch: {
+    $route(to, from) {
+      console.log(from.fullPath.indexOf("goodsDetails"));
+      if (from.fullPath.indexOf("goodsDetails") != -1) {
+        console.log(111);
+        this.init(to.params.id)
+      }
     }
   }
 };
