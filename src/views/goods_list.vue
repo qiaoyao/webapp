@@ -8,7 +8,7 @@
       <ul class="list">
         <li class="item" v-for="(item,index) in goodsList" :key="index" @click="openDetail(item.goods_id)">
           <div class="item-main">
-            <div class="icon" :class="{'active':item.isStorages}" @click="storageGoods(index)">
+            <div class="icon" :class="{'active':item.isStorages}" @click.stop="storageGoods(index)">
               <span class="iconfont icon-fav-full"></span>
             </div>
             <div class="img">

@@ -32,7 +32,13 @@ export default new Router({
     },
     {
       path: '/goodsList',
-      component: GoodsList
+      component: GoodsList,
+      children: [
+        {
+          path: ':id',
+          component: GoodsList
+        }
+      ]
     },
     {
       path: '/goodsDetails/:id',
