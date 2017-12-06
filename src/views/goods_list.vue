@@ -1,7 +1,9 @@
 <template>
   <div id="goods_list">
     <tab :tabs="tabs" :curIndex="newGoods" @changeTab="changeTabs"></tab>
-    <search-tag :searchTag="searchTag" v-if="false"></search-tag>
+    <div class="m-search-tag">
+      <search-tag :searchTag="searchTag" v-if="true"></search-tag>
+    </div>
     <div class="list-wrapper">
       <ul class="list">
         <li class="item" v-for="(item,index) in goodsList" :key="index">
@@ -49,6 +51,8 @@ export default {
     };
   },
   created() {
+    this.stcId = this.$route.params.id;
+    console.log(this.$route);
     this.getGoodsList();
   },
   methods: {
@@ -128,12 +132,14 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.stcId = this.$route.params.id;
-      this.newGoods = 0;
-      this.curTabIndex = 0;
-      this.page = 1;
-      this.goodsList = [];
-      this.getGoodsList();
+      // console.log('to:'+to.params.id);
+      // console.log('from:'+from.params.id);
+      // this.stcId = this.$route.params.id;
+      // this.newGoods = 0;
+      // this.curTabIndex = 0;
+      // this.page = 1;
+      // this.goodsList = [];
+      // this.getGoodsList();
     }
   }
 };
@@ -237,6 +243,9 @@ export default {
       color: #666666;
       background: #ffffff;
     }
+  }
+  .m-search-tag{
+    padding: 1rem 1rem 0;
   }
 }
 </style>
