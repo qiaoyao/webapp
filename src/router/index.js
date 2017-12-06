@@ -5,6 +5,7 @@ const Index = () => import('@/views/index');
 const Contact = () => import('@/views/contact');
 const GoodsList = () => import('@/views/goods_list');
 const Search = () => import('@/views/search');
+const News = () => import('@/views/news');
 
 Vue.use(Router)
 
@@ -29,6 +30,10 @@ export default new Router({
     {
       path: '/search',
       component: Search
+    },
+    {
+      path: '/news',
+      component: News
     }
   ]
 })
