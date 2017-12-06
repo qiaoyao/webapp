@@ -24,7 +24,7 @@ export default new Router({
       component: Contact
     },
     {
-      path: '/goodsList/:id',
+      path: '/goodsList',
       component: GoodsList
     },
     {

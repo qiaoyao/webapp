@@ -60,14 +60,14 @@
       </div>
     </div>
 
-    <!-- products -->
+    <!-- concept -->
     <div class="concept">
       <div class="column-title">
           <h2>设计理念</h2>
           <p>Design concept</p>
       </div>
       <ul class="concept-list" v-if="news.length>0">
-        <li v-for="item in news" :key="item.id">
+        <router-link :to="'/news/'+item.id" tag="li" v-for="item in news" :key="item.id">
           <div class="link">
             <div class="concept-img">
               <img :src="item.cover">
@@ -79,7 +79,7 @@
               <p>{{item.desc}}</p>
             </div>
           </div>
-        </li>
+        </router-link>
       </ul>
 
       <div class="link-btn">
