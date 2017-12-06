@@ -1,5 +1,6 @@
 <template>
   <div class="index">
+    <div class="empty-hint" v-if="showEmpty">查无此商品</div>
     <div class="rent-window" v-show="isOpen">
       <div class="inner-window">
         <span class="iconfont icon-close close fr" @click="closeWindow()"></span>
@@ -17,52 +18,54 @@
       </div>
     </div>
     <!-- banner -->
-    <swiper class="banner" :options="bannerOption" v-if="banner.length>0">
-      <div class="left mask"></div>
-      <div class="right mask"></div>
-      <!-- slides -->
-      <swiper-slide v-for="item in banner" :key="item.goods_image" style="">
-        <a href="#" class="link">
-          <img :src="item.goods_image">
-        </a>
-      </swiper-slide>
+    <div v-if="!showEmpty">
+      <swiper class="banner" :options="bannerOption" v-if="banner.length>0">
+        <div class="left mask"></div>
+        <div class="right mask"></div>
+        <!-- slides -->
+        <swiper-slide v-for="item in banner" :key="item.goods_image" style="">
+          <div class="link">
+            <img :src="item.goods_image">
+          </div>
+        </swiper-slide>
 
-      <div class="swiper-button-prev" slot="button-prev">
-        <div class="button">
-          <span class="iconfont icon-arrow-back"></span>
+        <div class="swiper-button-prev" slot="button-prev">
+          <div class="button">
+            <span class="iconfont icon-arrow-back"></span>
+          </div>
+        </div>
+        <div class="swiper-button-next" slot="button-next">
+          <div class="button">
+            <span class="iconfont icon-arrow-forward"></span>
+          </div>
+        </div>
+      </swiper>
+      <div class="details">
+        <div class="oh">
+          <p class="series-box fl">
+            <span class="series">{{goods.gc_name}}</span>
+            <span class="tags">{{goods.goods_jingle}}</span>
+          </p>
+          <p class="favour-box fr" :class=" {'active' : favourited}" @click="favourite(goods.goods_id)">
+            <span class="iconfont icon-fav-full"></span>
+          </p>
+        </div>
+        <div class="title">{{goods.goods_name}}</div>
+        <p class="price">
+          <span class="unit">￥</span>{{goods.goods_price}}</p>
+        <div class="button-group">
+          <div class="left-button fl" @click="goTmall(goods.tmall_url)">立即购买</div>
+          <div v-if="isRent" class="right-button fl" @click="openWindow()">我要租赁</div>
         </div>
       </div>
-      <div class="swiper-button-next" slot="button-next">
-        <div class="button">
-          <span class="iconfont icon-arrow-forward"></span>
-        </div>
+      <div class="content-gap"></div>
+      <div class="details-title">
+        <span class="item-details">商品详情</span>
+        <span class="iconfont icon-point-down"></span>
       </div>
-    </swiper>
-    <div class="details">
-      <div class="oh">
-        <p class="series-box fl">
-          <span class="series">{{goods.gc_name}}</span>
-          <span class="tags">{{goods.goods_jingle}}</span>
-        </p>
-        <p class="favour-box fr" :class=" {'active' : favourited}" @click="favourite(goods.goods_id)">
-          <span class="iconfont icon-fav-full"></span>
-        </p>
-      </div>
-      <div class="title">{{goods.goods_name}}</div>
-      <p class="price">
-        <span class="unit">￥</span>{{goods.goods_price}}</p>
-      <div class="button-group">
-        <div class="left-button fl" @click="goTmall(goods.tmall_url)">立即购买</div>
-        <div v-if="isRent" class="right-button fl" @click="openWindow()">我要租赁</div>
-      </div>
+      <div class="details-body" v-html="goods.goods_body"></div>
+      <div class="content-gap"></div>
     </div>
-    <div class="content-gap"></div>
-    <div class="details-title">
-      <span class="item-details">商品详情</span>
-      <span class="iconfont icon-point-down"></span>
-    </div>
-    <div class="details-body" v-html="goods.goods_body"></div>
-    <div class="content-gap"></div>
   </div>
 </template>
 
@@ -76,7 +79,7 @@ export default {
         speed: 300,
         slidesPerView: "auto",
         loop: true,
-        loopedSlides: 4,
+        loopedSlides: 1,
         prevButton: ".swiper-button-prev",
         nextButton: ".swiper-button-next"
       },
@@ -87,34 +90,43 @@ export default {
       rateList: [0.06, 0.08, 0.12, 0.03],
       currentDurationIndex: 0,
       currentRate: 0.06,
-      isOpen: false
+      isOpen: false,
+      showEmpty: false
     };
   },
   created() {
-    this.init();
+    var id = this.$route.params.id;
+    this.init(id);
   },
   computed: {
     resultPrice() {
       return (this.goods.goods_price * this.currentRate).toFixed(2);
     },
     rentType() {
-      if (this.currentDurationIndex == 3 ) {
+      if (this.currentDurationIndex == 3) {
         return "月租金：";
       } else {
-        return "总租金："
+        return "总租金：";
       }
     }
   },
   methods: {
-    init() {
-      this.$http.get("wap/goods/goods-info/104806").then(response => {
-        if (response.status == 200 && response.data.code == 0) {
-          this.banner = response.data.data.images;
-          this.goods = response.data.data;
-          this.isRent = response.data.data.is_rent;
-          this.checkFavourited(this.goods.goods_id);
-        }
-      });
+    init(id) {
+      this.$http
+        .get("wap/goods/goods-info/" + id)
+        .then(response => {
+          if (response.status == 200 && response.data.code == 0) {
+            this.banner = response.data.data.images;
+            this.goods = response.data.data;
+            this.isRent = response.data.data.is_rent;
+            this.checkFavourited(this.goods.goods_id);
+            this.bannerOption.loopedSlides = this.goods.length;
+          }
+        })
+        .catch(err => {
+          this.showEmpty = true;
+          console.log(err);
+        });
     },
     checkFavourited(id) {
       var favourArr = localStorage.getItem("goodsID").split(",");
@@ -217,7 +229,13 @@ export default {
   font-size: 1.3rem;
   margin-left: 1.1rem;
 }
-
+.empty-hint {
+  font-size: 2rem;
+  color: #333;
+  line-height: 15rem;
+  height: 35rem;
+  text-align: center;
+}
 .rent-window {
   width: 100%;
   height: 100%;
