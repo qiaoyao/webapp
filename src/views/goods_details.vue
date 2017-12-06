@@ -117,6 +117,8 @@ export default {
   },
   methods: {
     init(id) {
+      this.isOpen = false;
+      this.loading = true;
       this.$http
         .get("wap/goods/goods-info/" + id)
         .then(response => {
