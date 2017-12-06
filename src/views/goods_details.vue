@@ -95,6 +95,10 @@ export default {
     };
   },
   created() {
+    
+  },
+  activated: function () {
+    window.scrollTo(0,0);
     var id = this.$route.params.id;
     this.init(id);
   },
