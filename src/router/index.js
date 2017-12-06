@@ -32,6 +32,7 @@ export default new Router({
     },
     {
       path: '/goodsList',
+      redirect: '/goodsList/0',
       component: GoodsList,
       children: [
         {

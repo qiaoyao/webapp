@@ -1,8 +1,8 @@
 <template>
   <div id="goods_list">
     <tab :tabs="tabs" :curIndex="newGoods" @changeTab="changeTabs"></tab>
-    <div class="m-search-tag">
-      <search-tag :searchTag="searchTag" v-if="true"></search-tag>
+    <div class="m-search-tag" v-if="searchTag.length">
+      <search-tag :searchTag="searchTag" @delItem="delCurItem" @checkItem="checkCurItem"></search-tag>
     </div>
     <div class="list-wrapper">
       <ul class="list">
@@ -22,9 +22,10 @@
         </li>
       </ul>
     </div>
-    <div class="load" @click="loadMore">
+    <div class="load" @click="loadMore" v-show="goodsList.length">
       <p>{{loadText}}</p>
     </div>
+    <p class="nomal-data" v-show="!goodsList.length">没有相关数据</p>
   </div>
 </template>
 
@@ -42,7 +43,7 @@ export default {
       size: 10,
       page: 1,
       tabs: ["全部", "新品"],
-      searchTag: ["桌子", "花梨木"],
+      searchTag: [],
       goodsList: [],
       curTabIndex: 0,
       hasMore: false,
@@ -51,14 +52,27 @@ export default {
     };
   },
   created() {
-    this.stcId = this.$route.params.id;
-    this.getGoodsList();
+    this.init();
+  },
+  activated() {
+    var s = localStorage.getItem("yd_search");
+    if (s) {
+      this.searchTag = s.split(",");
+      this.searchTag = this.searchTag.filter(function(item, index) {
+        return index <= 1;
+      });
+    }
   },
   methods: {
+    init() {
+      this.stcId = this.$route.params.id;
+      this.getGoodsList();
+    },
     changeTabs(index) {
       if (this.curTabIndex == index) return;
       this.curTabIndex = index;
       this.newGoods = index;
+      this.keywords = '';
       this.page = 1;
       this.goodsList = [];
       this.getGoodsList();
@@ -128,7 +142,18 @@ export default {
 
       localStorage.setItem("goodsID", t);
     },
-    openDetail(id){
+    delCurItem(index) {
+      this.searchTag.splice(index, 1);
+      localStorage.setItem("yd_search", this.searchTag);
+    },
+    checkCurItem(item) {
+      this.keywords = item;
+      this.stcId = 0;
+      this.page = 1;
+      this.goodsList = [];
+      this.getGoodsList();
+    },
+    openDetail(id) {
       this.$router.push({
         path: `/goodsDetails/${id}`
       });
@@ -160,6 +185,7 @@ export default {
   animation: fade 0.5s;
 }
 #goods_list {
+  min-height: calc(100% - 4.4rem - 19.2rem);
   background: #f0f0f0;
   .list-wrapper {
     padding: 0.5rem;
@@ -246,8 +272,15 @@ export default {
       background: #ffffff;
     }
   }
-  .m-search-tag{
+  .m-search-tag {
     padding: 1rem 1rem 0;
+    height: 100%;
+  }
+  .nomal-data{
+    padding: 1.5rem;
+    font-size: 1.4rem;
+    color: #666;
+    text-align: center;
   }
 }
 </style>
