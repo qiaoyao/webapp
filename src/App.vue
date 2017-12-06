@@ -4,14 +4,12 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
-    <app-footer v-show="showFooter"></app-footer>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import appHeader from "./components/header";
-import appFooter from "./components/footer";
 
 export default {
   name: "app",
@@ -22,9 +20,9 @@ export default {
   methods: {
     init() {}
   },
-  components: { appHeader, appFooter },
+  components: { appHeader },
   computed: {
-    ...mapGetters(["showHeader", "showFooter"])
+    ...mapGetters(["showHeader"])
   }
 };
 </script>

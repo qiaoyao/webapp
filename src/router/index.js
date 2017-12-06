@@ -31,8 +31,14 @@ export default new Router({
       component: Contact
     },
     {
-      path: '/goodsList/:id',
-      component: GoodsList
+      path: '/goodsList',
+      component: GoodsList,
+      children: [
+        {
+          path: ':id',
+          component: GoodsList
+        }
+      ]
     },
     {
       path: '/goodsDetails/:id',

@@ -1,7 +1,9 @@
 <template>
+  <transition name="fade">
   <div class="loading" @touchmove.prevent>
       <img class="svg" src="../assets/images/oval.svg">
   </div>
+  </transition>
 </template>
 
 <script>
@@ -29,5 +31,13 @@ export default {
   .svg {
       font-size: 8rem;
   }
+}
+
+// fade
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .3s
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>

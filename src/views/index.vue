@@ -87,11 +87,16 @@
       </div>
 
     </div>
-    <loading v-if="loading"></loading> 
+
+    <!-- footer -->
+    <app-footer></app-footer>
+    <!-- loading -->
+    <loading v-if="loading"></loading>
   </div>
 </template>
 
 <script>
+import appFooter from "../components/footer";
 import Loading from "../components/loading";
 export default {
   name: "index",
@@ -128,12 +133,16 @@ export default {
           this.goods = response.data.data.goods;
           this.category = response.data.data["goods-class"];
           this.news = response.data.data.news;
-          setTimeout(()=>{this.loading = false;},300)
+          if (this.loading) {
+            setTimeout(() => {
+              this.loading = false;
+            }, 300);
+          }
         }
       });
     }
   },
-  components: { Loading }
+  components: { appFooter, Loading }
 };
 </script>
 
