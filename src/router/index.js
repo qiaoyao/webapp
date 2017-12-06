@@ -4,6 +4,7 @@ import Router from 'vue-router'
 const Index = () => import('@/views/index');
 const Contact = () => import('@/views/contact');
 const GoodsList = () => import('@/views/goods_list');
+const Search = () => import('@/views/search');
 
 Vue.use(Router)
 
@@ -24,6 +25,10 @@ export default new Router({
     {
       path: '/goodsList/:id',
       component: GoodsList
+    },
+    {
+      path: '/search',
+      component: Search
     }
   ]
 })

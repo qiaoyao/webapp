@@ -6,7 +6,7 @@
       <ul class="list">
         <li class="item" v-for="(item,index) in goodsList" :key="index">
           <div class="item-main">
-            <div class="icon active" @click="storageGoods(index)">
+            <div class="icon" :class="{'active':item.isStorages}" @click="storageGoods(index)">
               <span class="iconfont icon-fav-full"></span>
             </div>
             <div class="img">
@@ -45,7 +45,7 @@ export default {
       curTabIndex: 0,
       hasMore: false,
       loadText: "加载更多",
-      storages: ''
+      isStorages: false
     };
   },
   created() {
@@ -74,6 +74,19 @@ export default {
         .then(res => {
           if (res.data.code == 0) {
             this.goodsList = this.goodsList.concat(res.data.data);
+
+            var s = localStorage.getItem("goodsID");
+            if (s) {
+              var t = s.split(",");
+              for (var i = 0; i < this.goodsList.length; i++) {
+                for (var j = 0; j < t.length; j++) {
+                  if (this.goodsList[i].goods_id == t[j]) {
+                    this.$set(this.goodsList[i], "isStorages", true);
+                  }
+                }
+              }
+            }
+
             this.hasMore =
               res.data.pagination.current_page >=
               res.data.pagination.total_pages
@@ -97,10 +110,19 @@ export default {
       var id = this.goodsList[index].goods_id.toString();
       if (s) {
         t = s.split(",");
-      } else {
-        t.unshift(id);
+        t = t.filter(function(item) {
+          return item != id;
+        });
       }
-      // console.log(t);
+      t.unshift(id);
+
+      if (this.goodsList[index].isStorages) {
+        this.$set(this.goodsList[index], "isStorages", false);
+        t.splice(t.indexOf(id), 1);
+      } else {
+        this.$set(this.goodsList[index], "isStorages", true);
+      }
+
       localStorage.setItem("goodsID", t);
     }
   },
