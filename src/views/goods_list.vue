@@ -6,7 +6,7 @@
     </div>
     <div class="list-wrapper">
       <ul class="list">
-        <li class="item" v-for="(item,index) in goodsList" :key="index">
+        <li class="item" v-for="(item,index) in goodsList" :key="index" @click="openDetail(item.goods_id)">
           <div class="item-main">
             <div class="icon" :class="{'active':item.isStorages}" @click="storageGoods(index)">
               <span class="iconfont icon-fav-full"></span>
@@ -52,7 +52,6 @@ export default {
   },
   created() {
     this.stcId = this.$route.params.id;
-    console.log(this.$route);
     this.getGoodsList();
   },
   methods: {
@@ -128,18 +127,21 @@ export default {
       }
 
       localStorage.setItem("goodsID", t);
+    },
+    openDetail(id){
+      this.$router.push({
+        path: `/goodsDetails/${id}`
+      });
     }
   },
   watch: {
     $route(to, from) {
-      // console.log('to:'+to.params.id);
-      // console.log('from:'+from.params.id);
-      // this.stcId = this.$route.params.id;
-      // this.newGoods = 0;
-      // this.curTabIndex = 0;
-      // this.page = 1;
-      // this.goodsList = [];
-      // this.getGoodsList();
+      this.stcId = this.$route.params.id;
+      this.newGoods = 0;
+      this.curTabIndex = 0;
+      this.page = 1;
+      this.goodsList = [];
+      this.getGoodsList();
     }
   }
 };
