@@ -19,7 +19,6 @@ const mutations = {
     },
     setShowFooter(state, isShow){
         state.showFooter = isShow;
-        
     }
 };
 
