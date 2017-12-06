@@ -1,10 +1,10 @@
 <template>
-    <div class="search-tag">
-        <div class="item" v-for="(item,index) in searchTag" :key="index">
-            <span class="text">{{item}}</span>
-            <span class="iconfont icon-close" @click="delCurItem(index)"></span>
-        </div>
+  <div class="search-tag">
+    <div class="item" v-for="(item,index) in searchTag" :key="index">
+      <span class="text" @click="checkCurItem(item)">{{item}}</span>
+      <span class="iconfont icon-close" @click="delCurItem(index)"></span>
     </div>
+  </div>
 </template>
 
 <script>
@@ -16,8 +16,11 @@ export default {
     }
   },
   methods: {
-    delCurItem(index){
-      this.$emit('delItem', index);
+    delCurItem(index) {
+      this.$emit("delItem", index);
+    },
+    checkCurItem(item) {
+      this.$emit("checkItem", item);
     }
   }
 };
@@ -43,16 +46,16 @@ export default {
     color: #333333;
     background: rgba(200, 161, 101, 0.5);
     animation: fade 0.3s;
-    .text{
-        font-size: 1.2rem;
-        padding: 0.7rem 0 0.7rem 1.2rem;
+    .text {
+      font-size: 1.2rem;
+      padding: 0.7rem 0 0.7rem 1.2rem;
     }
-    .iconfont{
-        font-size: 1rem;
-        display: inline-block;
-        height: 2.8rem;
-        line-height: 3rem;
-        padding: 0 1.2rem;
+    .iconfont {
+      font-size: 1rem;
+      display: inline-block;
+      height: 2.8rem;
+      line-height: 3rem;
+      padding: 0 1.2rem;
     }
   }
 }

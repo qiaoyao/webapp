@@ -19,7 +19,7 @@
       </div>
       <p class="history-nomal" v-if="!searchTag.length">暂无历史搜索</p>
       <div class="m-search-tag" v-if="searchTag.length">
-        <search-tag :searchTag="searchTag" v-if="true" @delItem="delCurItem"></search-tag>
+        <search-tag :searchTag="searchTag" @delItem="delCurItem"></search-tag>
       </div>
     </div>
   </div>
