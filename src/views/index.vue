@@ -22,14 +22,14 @@
       <!-- product category -->
       <swiper class="product-category" :options="categoryOption" v-if="category.length>0">
         <swiper-slide v-for="item in category" :key="item.stc_id">
-            <span class="link">{{item.stc_name}}</span>
+          <router-link :to="'/goodsList/'+item.stc_id" tag="span" class="link">{{item.stc_name}}</router-link>
         </swiper-slide>
       </swiper>
 
       <!-- product goods -->
       <swiper class="product-goods" :options="goodsOption" v-if="goods.length>0">
         <swiper-slide class="item" v-for="item in goods" :key="item.goods_id">
-          <div class="item-main">
+          <router-link :to="'/goodsDetails/'+item.goods_id" tag="div" class="item-main">
             <div class="img">
               <img :src="item.goods_image">
             </div>
@@ -37,12 +37,12 @@
               <p class="name">{{item.goods_name}}</p>
               <p class="price">￥{{item.goods_price}}</p>
             </div>
-          </div>
+          </router-link>
         </swiper-slide>
       </swiper>
 
       <div class="link-btn">
-        <router-link to="/index" tag="span">查看更多...</router-link>
+        <router-link to="/goodsList" tag="span">查看更多...</router-link>
       </div>
     </div>
 

@@ -13,6 +13,8 @@ const Search = () =>
   import ('@/views/search');
 const News = () =>
   import ('@/views/news');
+const NewsDetail = () =>
+  import ('@/views/news_detail');
 Vue.use(Router)
 
 export default new Router({
@@ -43,6 +45,10 @@ export default new Router({
     {
       path: '/news',
       component: News
+    },
+    {
+      path: '/news/:id',
+      component: NewsDetail
     }
   ]
 })
