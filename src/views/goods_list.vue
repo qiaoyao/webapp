@@ -1,10 +1,12 @@
 <template>
   <div id="goods_list">
     <tab :tabs="tabs" :curIndex="newGoods" @changeTab="changeTabs"></tab>
-    <search-tag :searchTag="searchTag" v-if="false"></search-tag>
+    <div class="m-search-tag">
+      <search-tag :searchTag="searchTag" v-if="true"></search-tag>
+    </div>
     <div class="list-wrapper">
       <ul class="list">
-        <li class="item" v-for="(item,index) in goodsList" :key="index">
+        <li class="item" v-for="(item,index) in goodsList" :key="index" @click="openDetail(item.goods_id)">
           <div class="item-main">
             <div class="icon" :class="{'active':item.isStorages}" @click="storageGoods(index)">
               <span class="iconfont icon-fav-full"></span>
@@ -49,6 +51,7 @@ export default {
     };
   },
   created() {
+    this.stcId = this.$route.params.id;
     this.getGoodsList();
   },
   methods: {
@@ -124,6 +127,11 @@ export default {
       }
 
       localStorage.setItem("goodsID", t);
+    },
+    openDetail(id){
+      this.$router.push({
+        path: `/goodsDetails/${id}`
+      });
     }
   },
   watch: {
@@ -237,6 +245,9 @@ export default {
       color: #666666;
       background: #ffffff;
     }
+  }
+  .m-search-tag{
+    padding: 1rem 1rem 0;
   }
 }
 </style>
