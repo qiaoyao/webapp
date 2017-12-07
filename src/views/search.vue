@@ -36,10 +36,12 @@ export default {
     var s = localStorage.getItem("yd_search");
     if (s) {
       this.searchTag = s.split(",");
+    } else {
+      this.searchTag = [];
     }
   },
-  activated(){
-    this.keyword = '';
+  activated() {
+    this.keyword = "";
   },
   data() {
     return {
@@ -56,11 +58,17 @@ export default {
         isShow = false;
       }
       this.setShowHeader(isShow);
+      var s = localStorage.getItem("yd_search");
+      if (s) {
+        this.searchTag = s.split(",");
+      } else {
+        this.searchTag = [];
+      }
     }
   },
   methods: {
     searchStart() {
-      if(!this.keyword) return;
+      if (!this.keyword) return;
       var _this = this;
       var s = localStorage.getItem("yd_search");
       if (s) {
