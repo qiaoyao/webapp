@@ -55,7 +55,11 @@ export default {
   methods: {
     init() {
       this.ids = localStorage.getItem("goodsID");
-      this.getGoodsList();
+      if(this.ids){
+        this.getGoodsList();
+      }else{
+        this.loading = false;
+      }
     },
     getGoodsList() {
       this.$http
