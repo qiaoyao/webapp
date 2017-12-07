@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     init() {
-      this.$http.get("wap/nav/store-class").then(response => {
+      this.$http.get(this.$URL + "wap/nav/store-class").then(response => {
         if (response.status == 200 && response.data.code == 0) {
           this.storeClass = response.data.data;
         }

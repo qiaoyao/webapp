@@ -127,7 +127,7 @@ export default {
   },
   methods: {
     init() {
-      this.$http.get("wap/wap-index").then(response => {
+      this.$http.get(this.$URL + "wap/wap-index").then(response => {
         if (response.status == 200 && response.data.code == 0) {
           this.banner = response.data.data.banner;
           this.goods = response.data.data.goods;

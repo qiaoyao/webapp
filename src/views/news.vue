@@ -54,7 +54,7 @@ export default {
     init() {
       if (this.hasmore && this.ableToLoad) {
         this.ableToLoad = false;
-        this.$http.get("wap/news/news-list?size=6&page="+this.page).then(response => {
+        this.$http.get(this.$URL + "news/news-list?size=6&page="+this.page).then(response => {
           if (response.status == 200 && response.data.code == 0) {
             this.news = this.news.concat(response.data.data);
             this.hasmore = response.data.pagination.total_pages > response.data.pagination.current_page ? true : false;

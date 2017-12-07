@@ -34,7 +34,7 @@ export default {
   methods: {
     init() {
       this.$http
-        .get("wap/news/news-info/" + this.$route.params.id)
+        .get(this.$URL + "wap/news/news-info/" + this.$route.params.id)
         .then(response => {
           if (response.status == 200 && response.data.code == 0) {
             this.info = response.data.data;

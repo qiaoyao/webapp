@@ -63,5 +63,8 @@ export default new Router({
       path: '/favorites',
       component: Favorites
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })
