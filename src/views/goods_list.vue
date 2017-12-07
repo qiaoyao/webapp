@@ -7,7 +7,7 @@
       </div>
       <div class="list-wrapper">
         <ul class="list">
-          <li class="item" v-for="(item,index) in goodsList" :key="index" @click="openDetail(item.goods_id)">
+          <li class="item" v-for="(item,index) in goodsList" :key="item.goods_id" @click="openDetail(item.goods_id)">
             <div class="item-main">
               <div class="icon" :class="{'active':item.isStorages}" @click.stop="storageGoods(index)">
                 <span class="iconfont icon-fav-full"></span>
