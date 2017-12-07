@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import Tab from "@/components/tab";
 import SearchTag from "@/components/search_tag";
 
@@ -72,7 +73,7 @@ export default {
       if (this.curTabIndex == index) return;
       this.curTabIndex = index;
       this.newGoods = index;
-      this.keywords = '';
+      this.keywords = "";
       this.page = 1;
       this.goodsList = [];
       this.getGoodsList();
@@ -148,7 +149,6 @@ export default {
     },
     checkCurItem(item) {
       this.keywords = item;
-      this.stcId = 0;
       this.page = 1;
       this.goodsList = [];
       this.getGoodsList();
@@ -161,13 +161,22 @@ export default {
   },
   watch: {
     $route(to, from) {
+      if((to.params.id != from.params.id)){
+        this.keywords = '';
+      }else{
+        this.keywords = this.searchKeywords;
+      }
       this.stcId = this.$route.params.id;
+      
       this.newGoods = 0;
       this.curTabIndex = 0;
       this.page = 1;
       this.goodsList = [];
       this.getGoodsList();
     }
+  },
+  computed: {
+    ...mapGetters(['searchKeywords'])
   }
 };
 </script>
@@ -276,7 +285,7 @@ export default {
     padding: 1rem 1rem 0;
     height: 100%;
   }
-  .nomal-data{
+  .nomal-data {
     padding: 1.5rem;
     font-size: 1.4rem;
     color: #666;

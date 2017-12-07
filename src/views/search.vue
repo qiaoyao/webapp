@@ -19,21 +19,20 @@
       </div>
       <p class="history-nomal" v-if="!searchTag.length">暂无历史搜索</p>
       <div class="m-search-tag" v-if="searchTag.length">
-        <search-tag :searchTag="searchTag" @delItem="delCurItem"></search-tag>
+        <search-tag :searchTag="searchTag" @delItem="delCurItem" @checkItem="checkCurItem"></search-tag>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapGetters } from "vuex";
 import SearchTag from "@/components/search_tag";
 
 export default {
   components: { SearchTag },
   created() {
     this.setShowHeader(false);
-    this.setShowFooter(false);
     var s = localStorage.getItem("yd_search");
     if (s) {
       this.searchTag = s.split(",");
@@ -54,7 +53,6 @@ export default {
         isShow = false;
       }
       this.setShowHeader(isShow);
-      this.setShowFooter(isShow);
     }
   },
   methods: {
@@ -84,7 +82,16 @@ export default {
       this.searchTag.splice(index, 1);
       localStorage.setItem("yd_search", this.searchTag);
     },
-    ...mapMutations(["setShowHeader", "setShowFooter"])
+    checkCurItem(item) {
+      this.setKeyword(item);
+      this.$router.push({
+        path: `/goodsList`
+      });
+    },
+    ...mapMutations(["setShowHeader", "setKeyword"])
+  },
+  computed: {
+    ...mapGetters(["searchKeywords"])
   }
 };
 </script>
