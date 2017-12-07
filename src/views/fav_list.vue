@@ -44,7 +44,6 @@ export default {
       ids: 0,
       size: 10,
       page: 1,
-      tabs: ["全部", "新品"],
       goodsList: [],
       hasMore: false,
       loadText: "加载更多"
@@ -71,6 +70,10 @@ export default {
           if (res.data.code == 0) {
             this.goodsList = this.goodsList.concat(res.data.data);
 
+            if (this.goodsList.length < this.size) {
+              this.loadText = "没有更多";
+            }
+
             if (this.loading) {
               setTimeout(() => {
                 this.loading = false;
@@ -87,6 +90,7 @@ export default {
                 }
               }
             }
+
             this.hasMore =
               res.data.pagination.current_page >=
               res.data.pagination.total_pages
@@ -103,17 +107,35 @@ export default {
       } else {
         this.loadText = "没有更多";
       }
+    },
+    storageGoods(index) {
+      var s = localStorage.getItem("goodsID");
+      var t = [];
+      var id = this.goodsList[index].goods_id.toString();
+      if (s) {
+        t = s.split(",");
+        t = t.filter(function(item) {
+          return item != id;
+        });
+      }
+      t.unshift(id);
+
+      if (this.goodsList[index].isStorages) {
+        this.$set(this.goodsList[index], "isStorages", false);
+        t.splice(t.indexOf(id), 1);
+        this.goodsList.splice(index, 1);
+      } else {
+        this.$set(this.goodsList[index], "isStorages", true);
+      }
+
+      localStorage.setItem("goodsID", t);
     }
   },
   watch: {
     $route(to, from) {
-      this.keywords = "";
-      this.stcId = this.$route.params.id;
-      this.newGoods = 0;
-      this.curTabIndex = 0;
       this.page = 1;
       this.goodsList = [];
-      this.getGoodsList();
+      this.init();
     }
   }
 };
