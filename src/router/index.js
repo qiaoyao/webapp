@@ -15,6 +15,8 @@ const News = () =>
   import ('@/views/news');
 const NewsDetail = () =>
   import ('@/views/news_detail');
+const Favorites = () =>
+  import ('@/views/fav_list');
 Vue.use(Router)
 
 export default new Router({
@@ -56,6 +58,10 @@ export default new Router({
     {
       path: '/news/:id',
       component: NewsDetail
+    },
+    {
+      path: '/favorites',
+      component: Favorites
     }
   ]
 })

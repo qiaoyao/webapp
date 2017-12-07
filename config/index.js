@@ -11,8 +11,8 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/wap/': {
-        target: 'http://192.168.1.172/',
+      '/': {
+        target: 'http://192.168.1.172/wap/',
         secure: false,
         changeOrigin: true,
       }

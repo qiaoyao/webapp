@@ -1,43 +1,52 @@
 <template>
   <div id="goods_list">
-    <tab :tabs="tabs" :curIndex="newGoods" @changeTab="changeTabs"></tab>
-    <div class="m-search-tag" v-if="searchTag.length">
-      <search-tag :searchTag="searchTag" @delItem="delCurItem" @checkItem="checkCurItem"></search-tag>
-    </div>
-    <div class="list-wrapper">
-      <ul class="list">
-        <li class="item" v-for="(item,index) in goodsList" :key="index" @click="openDetail(item.goods_id)">
-          <div class="item-main">
-            <div class="icon" :class="{'active':item.isStorages}" @click.stop="storageGoods(index)">
-              <span class="iconfont icon-fav-full"></span>
+    <div class="goods-list-main">
+      <tab :tabs="tabs" :curIndex="newGoods" @changeTab="changeTabs"></tab>
+      <div class="m-search-tag" v-if="searchTag.length">
+        <search-tag :searchTag="searchTag" @delItem="delCurItem" @checkItem="checkCurItem"></search-tag>
+      </div>
+      <div class="list-wrapper">
+        <ul class="list">
+          <li class="item" v-for="(item,index) in goodsList" :key="index" @click="openDetail(item.goods_id)">
+            <div class="item-main">
+              <div class="icon" :class="{'active':item.isStorages}" @click.stop="storageGoods(index)">
+                <span class="iconfont icon-fav-full"></span>
+              </div>
+              <div class="img">
+                <img class="lazy-goods" v-lazy="item.goods_image" alt="">
+              </div>
+              <div class="desc">
+                <p class="name">{{item.goods_name}}</p>
+                <p class="price">￥{{item.goods_price}}</p>
+              </div>
             </div>
-            <div class="img">
-              <img class="lazy-goods" v-lazy="item.goods_image" alt="">
-            </div>
-            <div class="desc">
-              <p class="name">{{item.goods_name}}</p>
-              <p class="price">￥{{item.goods_price}}</p>
-            </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="load" @click="loadMore" v-show="goodsList.length">
+        <p>{{loadText}}</p>
+      </div>
+      <p class="nomal-data" v-show="!goodsList.length">没有相关数据</p>
     </div>
-    <div class="load" @click="loadMore" v-show="goodsList.length">
-      <p>{{loadText}}</p>
-    </div>
-    <p class="nomal-data" v-show="!goodsList.length">没有相关数据</p>
+    <!-- footer -->
+    <app-footer></app-footer>
+    <!-- loading -->
+    <loading v-if="loading"></loading>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
+import appFooter from "../components/footer";
+import Loading from "../components/loading";
 import Tab from "@/components/tab";
 import SearchTag from "@/components/search_tag";
 
 export default {
-  components: { Tab, SearchTag },
+  components: { appFooter, Loading, Tab, SearchTag },
   data() {
     return {
+      loading: true,
       stcId: 0,
       keywords: "",
       newGoods: 0,
@@ -80,7 +89,7 @@ export default {
     },
     getGoodsList() {
       this.$http
-        .get(this.$URL + "wap/goods/goods-list", {
+        .get(this.$URL + "goods/goods-list", {
           params: {
             stc_id: this.stcId,
             keywords: this.keywords,
@@ -103,6 +112,12 @@ export default {
                   }
                 }
               }
+            }
+
+            if (this.loading) {
+              setTimeout(() => {
+                this.loading = false;
+              }, 300);
             }
 
             this.hasMore =
@@ -157,17 +172,18 @@ export default {
       this.$router.push({
         path: `/goodsDetails/${id}`
       });
-    }
+    },
+    ...mapMutations(['setKeyword'])
   },
   watch: {
     $route(to, from) {
-      if((to.params.id != from.params.id)){
-        this.keywords = '';
-      }else{
+      if(from.path == '/search'){
         this.keywords = this.searchKeywords;
-      }
+      }else{
+        this.keywords = "";
+        this.setKeyword('');
+      };
       this.stcId = this.$route.params.id;
-      
       this.newGoods = 0;
       this.curTabIndex = 0;
       this.page = 1;
@@ -176,7 +192,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['searchKeywords'])
+    ...mapGetters(["searchKeywords"])
   }
 };
 </script>
@@ -196,6 +212,9 @@ export default {
 #goods_list {
   min-height: calc(100% - 4.4rem - 19.2rem);
   background: #f0f0f0;
+  .goods-list-main{
+    min-height: 43.1rem;
+  }
   .list-wrapper {
     padding: 0.5rem;
     .list {

@@ -38,6 +38,9 @@ export default {
       this.searchTag = s.split(",");
     }
   },
+  activated(){
+    this.keyword = '';
+  },
   data() {
     return {
       keyword: "",
@@ -57,6 +60,7 @@ export default {
   },
   methods: {
     searchStart() {
+      if(!this.keyword) return;
       var _this = this;
       var s = localStorage.getItem("yd_search");
       if (s) {
@@ -70,6 +74,7 @@ export default {
       this.$router.push({
         path: `/goodsList`
       });
+      this.setKeyword(this.keyword);
     },
     cleanHistory() {
       localStorage.removeItem("yd_search");
