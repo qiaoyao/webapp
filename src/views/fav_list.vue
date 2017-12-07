@@ -60,7 +60,7 @@ export default {
     },
     getGoodsList() {
       this.$http
-        .get(this.$URL + "goods/cookie-list", {
+        .get(this.$URL + "wap/goods/cookie-list", {
           params: {
             ids: this.ids,
             size: this.size,

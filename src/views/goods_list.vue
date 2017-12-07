@@ -89,7 +89,7 @@ export default {
     },
     getGoodsList() {
       this.$http
-        .get(this.$URL + "goods/goods-list", {
+        .get(this.$URL + "wap/goods/goods-list", {
           params: {
             stc_id: this.stcId,
             keywords: this.keywords,
