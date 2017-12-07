@@ -4,7 +4,7 @@
     <div id="header">
       <div class="left-icon">
         <i class="iconfont" :class="{'icon-menu': !showDropMenu, 'icon-close': showDropMenu}" @click="showDropMenu=!showDropMenu"></i>
-        <i class="icon-tmall" @click="goTMAll"></i>
+        <i class="icon-tmall" @click="goTmall"></i>
       </div>
       <div class="logo">
         <img src="../assets/images/logo.png" alt="">
@@ -68,7 +68,7 @@ export default {
         }
       });
     },
-    goTMAll() {
+    goTmall() {
       window.open('https://yundian.tmall.com/');
     }
   },

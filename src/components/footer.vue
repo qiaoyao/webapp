@@ -26,6 +26,11 @@
       <p class="copyright fl">© 2015 沪ICP备12006430号-1</p>
       <p class="copyright fr">沪公网安备31011202001660号</p>
     </div>
+
+    <!-- goTop -->
+    <transition name="fade">
+    <div class="goTop iconfont icon-arrow-up" v-if="isShowBtn" @click="scrollTop"></div>
+    </transition>
   </div>
 </template>
 
@@ -33,7 +38,40 @@
 export default {
   name: "footer",
   data() {
-    return {};
+    return {
+      isShowBtn: false
+    };
+  },
+  mounted() {
+    window.addEventListener('scroll', this.throttle(this.checkScroll, 200))
+  },
+  methods: {
+    checkScroll() {
+      if (document.body.scrollTop > document.body.offsetHeight) {
+        this.isShowBtn = true;
+      } else {
+        this.isShowBtn = false;
+      }
+    },
+    scrollTop() {
+      var timer = setInterval(function() {
+        if (document.body.scrollTop == 0) {
+          clearInterval(timer)
+        } else {
+          window.scrollTo(0, document.body.scrollTop - 60)
+        }
+      }, 10)
+    },
+    throttle(fn, delay) {
+      var previous = null;
+      return function () {
+        var now = +new Date();
+        if (!previous || now - previous > delay) {
+          fn();
+          previous = now;
+        }
+      }
+    }
   }
 };
 </script>
@@ -106,5 +144,19 @@ export default {
       margin-top: 1rem; 
     }
   }
+}
+.goTop {
+  position: fixed;
+  right: 0;
+  bottom: 23rem;
+  width: 3.2rem;
+  height: 3.2rem;
+  color: #fff;
+  font-size: 1rem !important;
+  line-height: 3.2rem;
+  text-align: center;
+  margin-right: 0;
+  background: #C8A165;
+  z-index: 2;
 }
 </style>
