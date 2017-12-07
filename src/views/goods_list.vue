@@ -102,10 +102,6 @@ export default {
           if (res.data.code == 0) {
             this.goodsList = this.goodsList.concat(res.data.data);
 
-            if (this.goodsList.length < this.size) {
-              this.loadText = "没有更多";
-            }
-
             var s = localStorage.getItem("goodsID");
             if (s) {
               var t = s.split(",");
@@ -124,12 +120,11 @@ export default {
               }, 300);
             }
 
-            this.hasMore =
-              res.data.pagination.current_page >=
-              res.data.pagination.total_pages
-                ? false
-                : true;
-            if (!this.hasMore) return;
+            this.hasMore = res.data.pagination.current_page >= res.data.pagination.total_pages ? false : true;
+            if (!this.hasMore) {
+              this.loadText = "没有更多";
+              return
+            };
             this.page++;
           }
         });
@@ -137,8 +132,6 @@ export default {
     loadMore() {
       if (this.hasMore) {
         this.getGoodsList();
-      } else {
-        this.loadText = "没有更多";
       }
     },
     storageGoods(index) {
