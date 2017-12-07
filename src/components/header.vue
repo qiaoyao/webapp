@@ -4,14 +4,14 @@
     <div id="header">
       <div class="left-icon">
         <i class="iconfont" :class="{'icon-menu': !showDropMenu, 'icon-close': showDropMenu}" @click="showDropMenu=!showDropMenu"></i>
-        <i class="icon-tmall"></i>
+        <i class="icon-tmall" @click="goTMAll"></i>
       </div>
       <div class="logo">
         <img src="../assets/images/logo.png" alt="">
       </div>
       <div class="right-icon">
         <router-link class="iconfont icon-search" to="/search" tag="i"></router-link>
-        <i class="iconfont icon-fav"></i>
+        <router-link class="iconfont icon-fav" to="/favorites" tag="i"></router-link>
       </div>
     </div>
     <!-- menu -->
@@ -67,6 +67,9 @@ export default {
           this.storeClass = response.data.data;
         }
       });
+    },
+    goTMAll() {
+      window.open('https://yundian.tmall.com/');
     }
   },
   watch: {

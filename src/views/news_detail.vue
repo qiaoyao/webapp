@@ -33,19 +33,17 @@ export default {
   },
   methods: {
     init() {
-      this.$http
-        .get(this.$URL + "wap/news/news-info/" + this.$route.params.id)
-        .then(response => {
-          if (response.status == 200 && response.data.code == 0) {
-            this.info = response.data.data;
+      this.$http.get(this.$URL + "wap/news/news-info/" + this.$route.params.id).then(response => {
+        if (response.status == 200 && response.data.code == 0) {
+          this.info = response.data.data;
 
-            if (this.loading) {
-              setTimeout(() => {
-                this.loading = false;
-              }, 300);
-            }
+          if (this.loading) {
+            setTimeout(() => {
+              this.loading = false;
+            }, 300);
           }
-        });
+        }
+      });
     }
   },
   components: { appFooter, Loading }
