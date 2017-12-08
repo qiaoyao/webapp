@@ -3,9 +3,9 @@
     <app-header v-show="showHeader"></app-header>
     <div class="wrap">
     <keep-alive>
-      <transition name="fadeInRight">
+      <!-- <transition name="fadeInRight"> -->
       <router-view></router-view>
-      </transition>
+      <!-- </transition> -->
     </keep-alive>
     </div>
   </div>
