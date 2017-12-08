@@ -66,12 +66,15 @@
       <div class="details-body" v-html="goods.goods_body"></div>
       <div class="content-gap"></div>
     </div>
-    <loading v-if="loading"></loading> 
+    <loading v-if="loading"></loading>
+    <!-- footer -->
+    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 import Loading from "../components/loading";
+import appFooter from "../components/footer";
 export default {
   name: "goodsDetails",
   data() {
@@ -120,7 +123,7 @@ export default {
       this.isOpen = false;
       this.loading = true;
       this.$http
-        .get("wap/goods/goods-info/" + id)
+        .get(this.$URL + "wap/goods/goods-info/" + id)
         .then(response => {
           if (response.status == 200 && response.data.code == 0) {
             this.banner = response.data.data.images;
@@ -140,8 +143,6 @@ export default {
     },
     checkFavourited(id) {
       var storage = localStorage.getItem("goodsID");
-      console.log(storage);
-      console.log(id);
       var favourArr;
       if (storage) {
         favourArr = localStorage.getItem("goodsID").split(",");
@@ -172,26 +173,38 @@ export default {
       }
     },
     favourite(id) {
-      var favourArr = localStorage.getItem("goodsID").split(",");
-      if (favourArr.indexOf(id + "") != -1) {
-        favourArr = favourArr.filter(function(e) {
-          return e != id;
-        });
-        this.favourited = false;
+      var storage = localStorage.getItem("goodsID");
+      console.log(storage);
+      var favourArr = [];
+      if (storage) {
+        favourArr = localStorage.getItem("goodsID").split(",");
+        if (favourArr.indexOf(id + "") != -1) {
+          favourArr = favourArr.filter(function(e) {
+            return e != id;
+          });
+          this.favourited = false;
+        } else {
+          favourArr.push(id);
+          this.favourited = true;
+        }
+        localStorage.setItem("goodsID", favourArr);
       } else {
         favourArr.push(id);
         this.favourited = true;
+        localStorage.setItem("goodsID", favourArr);
       }
-      localStorage.setItem("goodsID", favourArr);
     }
   },
-  components: { Loading },
+  components: { appFooter, Loading },
   watch: {
     $route(to, from) {
       console.log(from.fullPath.indexOf("goodsDetails"));
-      if (from.fullPath.indexOf("goodsDetails") != -1) {
+      if (
+        from.fullPath.indexOf("goodsDetails") != -1 &&
+        to.fullPath.indexOf("goodsDetails") != -1
+      ) {
         console.log(111);
-        this.init(to.params.id)
+        this.init(to.params.id);
       }
     }
   }
