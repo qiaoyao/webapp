@@ -126,6 +126,11 @@ export default {
       }
 
       localStorage.setItem("goodsID", t);
+    },
+    openDetail(id) {
+      this.$router.push({
+        path: `/goodsDetails/${id}`
+      });
     }
   },
   watch: {
