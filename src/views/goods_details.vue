@@ -12,8 +12,9 @@
         <p class="result-price">{{rentType}}￥{{resultPrice}}</p>
         <p class="price-hint">（另需支付保证金
           <span class="hint-strong">￥300</span>元）</p>
-        <p class="inquire-button">在线咨询</p>
+        <p class="inquire-button" @click="openInquire()">在线咨询</p>
         <p class="statement">*租金计算仅供参考，租期到期后退还保证金，详情请咨询客服</p>
+        <p class="statement">*客服电话：400-0597-365</p>
         <!-- <p class="statement">*允典红木租赁条例</p> -->
       </div>
     </div>
@@ -156,6 +157,10 @@ export default {
     pickDuration(index) {
       this.currentDurationIndex = index;
       this.currentRate = this.rateList[index];
+    },
+    openInquire() {
+      window.location.href =
+        "http://chat8.live800.com/live800/chatClient/chatbox.jsp?companyID=694851&configID=150423&lan=zh&jid=1009296982&enterurl=http%3A%2F%2Flocalhost%2Fshop%2Findex.php%3Fact%3Dstore_list_msg&timestamp=1480064811777&pagereferrer=http%3A%2F%2Flocalhost%2F&firstEnterUrl=http%3A%2F%2Flocalhost%2Fshop%2Findex%2Ephp%3Fact%3Dstore%5Flist%5Fmsg&pagetitle=%E5%85%81%E5%85%B8%E5%B1%85%E5%AE%B6";
     },
     closeWindow() {
       this.isOpen = false;
