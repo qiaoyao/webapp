@@ -83,6 +83,7 @@ export default {
       this.curTabIndex = index;
       this.newGoods = index;
       this.keywords = "";
+      this.loadText = "加载更多";
       this.page = 1;
       this.goodsList = [];
       this.getGoodsList();
