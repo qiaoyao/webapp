@@ -43,7 +43,7 @@ export default {
     };
   },
   mounted() {
-    window.addEventListener('scroll', this.throttle(this.checkScroll, 200))
+    window.addEventListener('scroll', this.throttle(this.checkScroll, 100))
   },
   methods: {
     checkScroll() {

@@ -1,5 +1,5 @@
 <template>
-  <div class="index">
+  <div class="goods-details wrap-content">
     <div class="empty-hint" v-if="showEmpty">查无此商品</div>
     <div class="rent-window" v-show="isOpen">
       <div class="inner-window">
@@ -100,9 +100,7 @@ export default {
       loading: true
     };
   },
-  created() {},
-  activated: function() {
-    window.scrollTo(0, 0);
+  created() {
     var id = this.$route.params.id;
     this.init(id);
   },

@@ -1,5 +1,5 @@
 <template>
-  <div class="news-detail">
+  <div class="news-detail wrap-content">
     <!-- concept -->
     <div class="concept">
       <div class="column-title">

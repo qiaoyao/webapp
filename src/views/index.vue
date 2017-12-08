@@ -1,5 +1,5 @@
 <template>
-  <div class="index">
+  <div class="index wrap-content">
     <!-- banner -->
     <swiper class="banner" :options="bannerOption" v-if="banner.length>0">
       <!-- slides -->
@@ -53,7 +53,7 @@
       </div>
       <h5 class="title">关于我们</h5>
       <h6 class="sub-title">About us</h6>
-      <p class="info">允典红木创立于1993年，传承祖宗家居文化的精髓，凝聚古今中外的风格元素，选择允典，成就您对极致生活的追求与梦想！允典红木，家具中的思想家！</p>
+      <p class="info">允典红木创建于1993年，允典一直秉持自己对古典家居文化的理解，传承祖宗家居文化精髓，凝聚古今中外风格元素，融汇贯通，将艺术性、美观性与实用性巧妙结合，创制带有显著“允典”特质的家居文化。允典所提供的不仅是家具本身，更是一种思考，一种文化，一种生活方式，创造价值，创造经典，是允典人持之以恒不断追求，而对允典的选择也能成就您对极致生活的追求与梦想！</p>
 
       <div class="link-btn">
         <router-link to="/contact" tag="span" class="iconfont icon-arrow-right"></router-link>

@@ -131,6 +131,10 @@ input {
   display: none;
 }
 
+html, body, #app {
+  height: 100%;
+}
+
 @media only screen and (max-width: 640px), only screen and (max-device-width: 640px) {
   html,
   body {
