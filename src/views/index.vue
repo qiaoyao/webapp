@@ -16,11 +16,11 @@
     <div class="products">
       <div class="column-title">
           <h2>产品展示</h2>
-          <p>—— &nbsp Product &nbsp ——</p>
+          <p><i></i><span>Product</span><i></i></p>
       </div>
 
       <!-- product category -->
-      <swiper class="product-category" :options="categoryOption" v-if="category.length>0">
+      <swiper class="product-category" :options="categoryOption" v-if="category.length>0" ref="mySwiper">
         <swiper-slide v-for="item in category" :key="item.stc_id">
           <router-link :to="'/goodsList/'+item.stc_id" tag="span" class="link">{{item.stc_name}}</router-link>
         </swiper-slide>
@@ -122,6 +122,11 @@ export default {
       news: []
     };
   },
+  computed: {
+    swiper() {
+      return this.$refs.mySwiper.swiper
+    }
+  },
   created() {
     this.init();
   },
@@ -140,6 +145,13 @@ export default {
           }
         }
       });
+    }
+  },
+  watch: {
+    $route(to, from) {
+      if (to.path == '/index') {
+        this.swiper.update();
+      }
     }
   },
   components: { appFooter, Loading }
@@ -162,6 +174,21 @@ export default {
 .products {
   padding: 4rem 0 4rem;
   background-color: #fff;
+  .column-title {
+    p {
+      span {
+        vertical-align: middle;
+      }
+      i {
+        display: inline-block;
+        width: 4rem;
+        height: 0.1rem;
+        background-color: #999;
+        margin: 0 0.8rem;
+        vertical-align: middle;
+      }
+    }
+  }
   .product-category {
     padding: 0 1rem;
     .swiper-slide {
