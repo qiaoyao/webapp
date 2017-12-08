@@ -22,7 +22,7 @@
       <div class="load" @click="loadMore" v-show="goodsList.length">
         <p>{{loadText}}</p>
       </div>
-      <p class="nomal-data" v-show="!goodsList.length">没有相关数据</p>
+      <p class="nomal-data" v-show="!goodsList.length&&!hasMore">没有相关数据</p>
     </div>
     <!-- footer -->
     <app-footer></app-footer>
