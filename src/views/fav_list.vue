@@ -1,7 +1,7 @@
 <template>
   <div id="goods_list">
     <div class="goods-list-main">
-      <div class="list-wrapper">
+      <div class="list-wrapper" v-show="goodsList.length">
         <ul class="list">
           <li class="item" v-for="(item,index) in goodsList" :key="item.goods_id" @click="openDetail(item.goods_id)">
             <div class="item-main">
@@ -22,7 +22,12 @@
       <div class="load" @click="loadMore" v-show="goodsList.length">
         <p>{{loadText}}</p>
       </div>
-      <p class="nomal-data" v-show="!goodsList.length&&!hasMore">没有相关数据</p>
+      <div class="nomal-data" v-show="!goodsList.length&&!hasMore">
+        <div class="desc">
+          <img src="./../assets/images/fav_nomal.png" alt="">
+          <p>暂无收藏的商品哦～</p>
+        </div>
+      </div>
     </div>
     <!-- footer -->
     <app-footer></app-footer>
@@ -55,9 +60,9 @@ export default {
   methods: {
     init() {
       this.ids = localStorage.getItem("goodsID");
-      if(this.ids){
+      if (this.ids) {
         this.getGoodsList();
-      }else{
+      } else {
         this.loading = false;
       }
     },
@@ -91,11 +96,15 @@ export default {
               }
             }
 
-            this.hasMore = res.data.pagination.current_page >= res.data.pagination.total_pages ? false : true;
+            this.hasMore =
+              res.data.pagination.current_page >=
+              res.data.pagination.total_pages
+                ? false
+                : true;
             if (!this.hasMore) {
               this.loadText = "没有更多";
-              return
-            };
+              return;
+            }
             this.page++;
           }
         });
@@ -251,10 +260,23 @@ export default {
     height: 100%;
   }
   .nomal-data {
+    height: 40.1rem;
     padding: 1.5rem;
-    font-size: 1.4rem;
-    color: #666;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .desc {
+      & > img {
+        display: inline-block;
+        width: 12rem;
+        height: 12rem;
+        margin-bottom: 1.6rem;
+      }
+      & > p {
+        font-size: 1.4rem;
+        color: #666;
+      }
+    }
   }
 }
 </style>
