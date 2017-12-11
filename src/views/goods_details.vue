@@ -41,7 +41,7 @@
           </div>
         </div>
       </swiper>
-      <div class="details">
+      <div class="details" v-if="goods.goods_id">
         <div class="oh">
           <p class="series-box fl">
             <span class="series">{{goods.gc_name}}</span>
@@ -60,16 +60,17 @@
         </div>
       </div>
       <div class="content-gap"></div>
-      <div class="details-title">
+      <div class="details-title" v-if="goods.goods_id">
         <span class="item-details">商品详情</span>
         <span class="iconfont icon-point-down"></span>
       </div>
       <div class="details-body" v-html="goods.goods_body"></div>
       <div class="content-gap"></div>
     </div>
-    <loading v-if="loading"></loading>
+
     <!-- footer -->
-    <app-footer></app-footer>
+    <app-footer v-if="goods.goods_id"></app-footer>
+    <loading v-if="loading"></loading>
   </div>
 </template>
 
@@ -120,7 +121,6 @@ export default {
   methods: {
     init(id) {
       this.isOpen = false;
-      this.loading = true;
       this.$http
         .get(this.$URL + "wap/goods/goods-info/" + id)
         .then(response => {
@@ -201,12 +201,11 @@ export default {
   components: { appFooter, Loading },
   watch: {
     $route(to, from) {
-      console.log(from.fullPath.indexOf("goodsDetails"));
-      if (
-        from.fullPath.indexOf("goodsDetails") != -1 &&
-        to.fullPath.indexOf("goodsDetails") != -1
-      ) {
-        console.log(111);
+      console.log("watch");
+      if (to.fullPath.indexOf("goodsDetails") != -1) {
+        this.loading = true;
+        this.goods = [];
+        this.banner = [];
         this.init(to.params.id);
       }
     }

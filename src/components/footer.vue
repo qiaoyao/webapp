@@ -12,13 +12,13 @@
         <p>
           <span class="iconfont icon-addr"></span>上海市长宁区古北路786号</p>
         <p>
-          <span class="iconfont icon-fax"></span>4000-597-365</p>
+          <span class="iconfont icon-tel"></span>4000-597-365</p>
       </div>
       <div class="fr oh">
         <p>
-          <span class="iconfont icon-addr"></span>021-64972266</p>
+          <span class="iconfont icon-fax"></span>021-64972266</p>
         <p>
-          <span class="iconfont icon-fax"></span>service@iydjj.com</p>
+          <span class="iconfont icon-mail"></span>service@iydjj.com</p>
       </div>
     </div>
     <div class="iso-line"></div>

@@ -32,10 +32,12 @@
         <div class="straight-angle"></div>
       </div>
     </div>
+     <app-footer></app-footer>
   </div>
 </template>
 
 <script>
+import appFooter from "../components/footer";
 import {computedREM} from '../assets/js/base'
 const rem = computedREM();
 const contact = {
@@ -153,7 +155,8 @@ const contact = {
             marker.openInfoWindow(infoWindow);
         }
     }
-  }
+  },
+  components: { appFooter }
 };
 export default contact;
 </script>

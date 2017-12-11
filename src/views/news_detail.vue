@@ -26,11 +26,16 @@ export default {
       loading: true
     };
   },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      vm.init();
-    });
+  created() {
+    this.info = {};
+    this.loading = true;
+    this.init();
   },
+  // beforeRouteEnter(to, from, next) {
+  //   next(vm => {
+  //     vm.init();
+  //   });
+  // },
   methods: {
     init() {
       this.$http.get(this.$URL + "wap/news/news-info/" + this.$route.params.id).then(response => {
@@ -46,12 +51,23 @@ export default {
       });
     }
   },
+  watch: {
+    $route(to, from) {
+      if (to.path.indexOf('/news/') >= 0) {
+        this.info = {};
+        this.loading = true;
+        this.init();
+      }
+    }
+  },
   components: { appFooter, Loading }
 };
 </script>
 
 <style lang="scss" scoped>
 .concept {
+  min-height: 30rem;
+  box-sizing: border-box;
   padding-bottom: 2rem;
   background-color: #f0f0f0;
   .column-title {
