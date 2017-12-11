@@ -121,13 +121,17 @@ export default {
               }, 300);
             }
 
-            this.hasMore = res.data.pagination.current_page >= res.data.pagination.total_pages ? false : true;
+            this.hasMore =
+              res.data.pagination.current_page >=
+              res.data.pagination.total_pages
+                ? false
+                : true;
             if (!this.hasMore) {
               this.loadText = "没有更多";
-              return
-            }else{
+              return;
+            } else {
               this.loadText = "加载更多";
-            };
+            }
             this.page++;
           }
         });
@@ -173,16 +177,22 @@ export default {
         path: `/goodsDetails/${id}`
       });
     },
-    ...mapMutations(['setKeyword'])
+    ...mapMutations(["setKeyword"])
   },
   watch: {
     $route(to, from) {
-      if(from.path == '/search'){
+      if (from.path == "/search") {
         this.keywords = this.searchKeywords;
-      }else{
+        this.$nextTick(() => {
+          this.searchTag.unshift(this.searchKeywords);
+          this.searchTag = this.searchTag.filter(function(item, index) {
+            return index <= 0 && item;
+          });
+        });
+      } else {
         this.keywords = "";
-        this.setKeyword('');
-      };
+        this.setKeyword("");
+      }
       this.stcId = this.$route.params.id;
       this.newGoods = 0;
       this.curTabIndex = 0;
@@ -212,7 +222,7 @@ export default {
 #goods_list {
   min-height: calc(100% - 4.4rem - 19.2rem);
   background: #f0f0f0;
-  .goods-list-main{
+  .goods-list-main {
     min-height: 43.1rem;
   }
   .list-wrapper {
