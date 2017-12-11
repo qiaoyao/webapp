@@ -69,7 +69,7 @@ export default {
     if (s) {
       this.searchTag = s.split(",");
       this.searchTag = this.searchTag.filter(function(item, index) {
-        return index <= 1;
+        return index <= 0;
       });
     }
   },
