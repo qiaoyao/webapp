@@ -104,6 +104,8 @@ export default {
             if (!this.hasMore) {
               this.loadText = "没有更多";
               return;
+            }else{
+              this.loadText = "加载更多";
             }
             this.page++;
           }
